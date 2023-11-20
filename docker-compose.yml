@@ -54,7 +54,16 @@ services:
         command: redis-server --appendonly yes --requirepass  "${REDIS_PASSWORD}"
         ports:
             - 6379:6379
-            
+
+    rabbitmq:
+        image: "rabbitmq:management"
+        ports:
+            - 5672:5672
+            - 15672:15672
+        environment:
+            - RABBITMQ_DEFAULT_USER=${RABBITMQ_LOGIN}
+            - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
+
 #Docker Networks
 networks:
     app-network:
