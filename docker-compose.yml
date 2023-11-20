@@ -1,4 +1,4 @@
-version: "3.7"
+version: "3.8"
 
 services:
     app:
@@ -21,19 +21,16 @@ services:
             - app-network
 
     db:
-        image: mysql:5.7.32
-        container_name: db
-        restart: unless-stopped
-        tty: true
+        image: mysql:8.0
         ports:
-            - "3306:3306"
+            - 3306:3306
         environment:
-            MYSQL_DATABASE: dockerized_laravel_with_sanctum
-            MYSQL_ROOT_PASSWORD: dockerized
-            SERVICE_NAME: mysql
-            SERVICE_TAGS: dev
+            - MYSQL_DATABASE=${DB_DATABASE}
+            - MYSQL_USER=${DB_USERNAME}
+            - MYSQL_PASSWORD=${DB_PASSWORD}
+            - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
         volumes:
-            - dbdata:/var/lib/mysql/
+            - db-data:/var/lib/mysql/
             - ./docker/mysql/my.cnf:/etc/mysql/my.cnf
         networks:
             - app-network
@@ -58,5 +55,4 @@ networks:
 
 #Volumes
 volumes:
-    dbdata:
-        driver: local
+    db-data: ~
