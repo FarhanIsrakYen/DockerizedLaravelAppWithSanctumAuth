@@ -30,6 +30,10 @@ RUN apt-get update && apt-get install -y \
 
 RUN pecl install xdebug && docker-php-ext-enable xdebug
 
+RUN pecl install -o -f redis \
+    && rm -rf /tmp/pear \
+    && docker-php-ext-enable redis
+
 # Nodejs
 RUN apt-get update && apt-get install -y gpgv curl && \
     curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - && \
