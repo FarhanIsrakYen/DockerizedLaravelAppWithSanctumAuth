@@ -67,5 +67,5 @@ tests:
 tests-html: ## Run tests + generate coverage.
 	docker exec ${CONTAINER_PHP} php -d zend_extension=xdebug.so -d xdebug.mode=coverage ./vendor/bin/phpunit --coverage-html reports
 
-up: create-env generate-key ## Start all containers.
-	@docker compose up --force-recreate -d
+up: create-env ## Start all containers.
+	@docker compose up -d
