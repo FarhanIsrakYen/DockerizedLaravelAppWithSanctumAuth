@@ -23,8 +23,8 @@ class CreateUserRequest extends FormRequest
     {
         return [
             'username' => ['required','string','regex:/\w*$/','unique:users,username'],
-            'firstName' => ['required','max:255'],
-            'lastName' => ['required','max:255'],
+            'first_name' => ['required','max:255'],
+            'last_name' => ['required','max:255'],
             'email' => ['required','max:255', 'unique:users,email','email:filter'],
             'password' => ['required','min:8'],
             'phone' => ['sometimes', 'unique:users,phone','digits_between:10,20'],
