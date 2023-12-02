@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserRequest;
+use App\Http\Requests\LoginUserRequest;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use Hash;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -33,6 +35,31 @@ class RegisterController extends Controller
             'success' => true,
             'message' => "Signed up successfully",
             'user' => $success
-        ], Response::HTTP_ACCEPTED);
+        ], Response::HTTP_OK);
+    }
+
+    public function login(LoginUserRequest $request){
+        try {
+            if(!Auth::attempt($request->only(['username', 'password']))){
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Invalid username or password! Please try again',
+                ], Response::HTTP_UNAUTHORIZED);
+            }
+
+            $user = User::where('username', $request->username)->first();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Logged in successfully!',
+                'token' => $user->createToken("API TOKEN")->plainTextToken
+            ], Response::HTTP_OK);
+
+        } catch (\Throwable $th) {
+            return response()->json([
+                'status' => false,
+                'message' => $th->getMessage()
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
+        }
     }
 }
