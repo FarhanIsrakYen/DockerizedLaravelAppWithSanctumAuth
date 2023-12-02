@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\CreateUserRequest;
 use App\Models\User;
 use Hash;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class RegisterController extends Controller
@@ -31,7 +30,7 @@ class RegisterController extends Controller
         $success['username'] = $user->username;
         $success['success'] = true;
         return response()->json([
-            'status' => Response::HTTP_ACCEPTED,
+            'success' => true,
             'message' => "Signed up successfully",
             'user' => $success
         ], Response::HTTP_ACCEPTED);
