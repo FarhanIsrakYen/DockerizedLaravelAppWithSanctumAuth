@@ -34,7 +34,7 @@ class RegisterController extends Controller
         return response()->json([
             'success' => true,
             'message' => "Signed up successfully",
-            'user' => $success
+            'data' => $success
         ], Response::HTTP_OK);
     }
 
@@ -61,5 +61,26 @@ class RegisterController extends Controller
                 'message' => $th->getMessage()
             ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    public function logout()
+    {
+        Auth::logout();
+        return response()->json([
+            'success' => true,
+            'message' => "Logged out successfully",
+            'data' => []
+        ], Response::HTTP_OK);
+    }
+
+    public function getUser()
+    {
+        dd(1);
+        $user = Auth::user();
+        return response()->json([
+            'success' => true,
+            'message' => "User retrieved successfully",
+            'data' => $user
+        ], Response::HTTP_OK);
     }
 }

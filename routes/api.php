@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\RegisterController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\User\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,12 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 Route::post('/register', [RegisterController::class, 'register']);
-Route::post('/auth/login', [RegisterController::class, 'login']);
+Route::post('/auth/login', [RegisterController::class, 'login'])
+    ->middleware('throttle:loginAttempts');
 
-Route::get('/test', function () {
-    return "user";
-});
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['auth', 'sanctum'])->group(function () {
+    Route::controller(UserController::class)->prefix('/users')
+        ->group(function () {
+            Route::get('/', 'getUser');
+            Route::post('/logout', 'logout');
+            Route::put('/update', 'updateUser');
+    });
 });

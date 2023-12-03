@@ -58,6 +58,9 @@ ps:
 request:
 	docker exec -it ${CONTAINER_PHP} php artisan make:request ${REQUEST_NAME}
 
+show-model-details:
+	docker exec -it ${CONTAINER_PHP} php artisan model:show ${MODEL_NAME}
+
 ssh:
 	docker exec -it ${CONTAINER_PHP} sh
 
